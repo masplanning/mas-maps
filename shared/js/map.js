@@ -237,7 +237,6 @@ map.on("load", () => {
 
 
                 // Bold caption field
-                // Used for POI "Use"
                 if (
                     popupConfig.captionBoldField &&
                     properties[popupConfig.captionBoldField]
@@ -250,7 +249,6 @@ map.on("load", () => {
 
 
                 // Regular caption field
-                // Used for POI "image_sour"
                 if (
                     popupConfig.captionField &&
                     properties[popupConfig.captionField]
@@ -265,8 +263,7 @@ map.on("load", () => {
                 }
 
 
-                // Simple image caption
-                // Used by Development Sites
+                // Simple caption
                 if (
                     !popupConfig.captionField &&
                     popupConfig.imageCaptionField &&
@@ -278,7 +275,6 @@ map.on("load", () => {
                 }
 
 
-                // Add caption to popup
                 if (captionHTML) {
 
                     popupHTML += `
@@ -351,5 +347,314 @@ map.on("load", () => {
         }
 
     });
+
+
+    // ========================================================
+    // INTERACTIVE LEGEND / LAYER CONTROL
+    // ========================================================
+
+    if (config.controls && config.controls.items) {
+
+        const control = document.createElement("div");
+        control.className = "map-layer-control";
+
+
+        // ----------------------------------------------------
+        // HEADER
+        // ----------------------------------------------------
+
+        const header = document.createElement("button");
+        header.className = "map-layer-control-header";
+        header.type = "button";
+
+        header.innerHTML = `
+            <span>${config.controls.title || "Layers"}</span>
+            <span class="map-layer-control-toggle">−</span>
+        `;
+
+        control.appendChild(header);
+
+
+        // ----------------------------------------------------
+        // CONTENT
+        // ----------------------------------------------------
+
+        const content = document.createElement("div");
+        content.className = "map-layer-control-content";
+
+        control.appendChild(content);
+
+
+        // ----------------------------------------------------
+        // CREATE EACH LEGEND / CHECKBOX ROW
+        // ----------------------------------------------------
+
+        config.controls.items.forEach((item, index) => {
+
+            const row = document.createElement("label");
+            row.className = "map-layer-control-row";
+
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = true;
+            checkbox.className = "map-layer-control-checkbox";
+
+            checkbox.dataset.controlIndex = index;
+
+
+            // ------------------------------------------------
+            // SYMBOL
+            // ------------------------------------------------
+
+            const swatch = document.createElement("span");
+            swatch.className = "map-layer-control-swatch";
+
+
+            if (item.symbol) {
+
+                if (item.symbol.type === "fill") {
+
+                    swatch.classList.add(
+                        "map-layer-control-swatch-fill"
+                    );
+
+                    swatch.style.backgroundColor =
+                        item.symbol.color;
+
+                    swatch.style.opacity =
+                        item.symbol.opacity ?? 1;
+                }
+
+
+                else if (item.symbol.type === "line") {
+
+                    swatch.classList.add(
+                        "map-layer-control-swatch-line"
+                    );
+
+                    swatch.style.borderTopColor =
+                        item.symbol.color;
+
+                    swatch.style.borderTopStyle =
+                        item.symbol.dashed
+                            ? "dashed"
+                            : "solid";
+                }
+
+
+                else if (item.symbol.type === "circle") {
+
+                    swatch.classList.add(
+                        "map-layer-control-swatch-circle"
+                    );
+
+                    swatch.style.backgroundColor =
+                        item.symbol.color;
+                }
+            }
+
+
+            // ------------------------------------------------
+            // LABEL
+            // ------------------------------------------------
+
+            const labelText = document.createElement("span");
+            labelText.className =
+                "map-layer-control-label";
+
+            labelText.textContent = item.label;
+
+
+            row.appendChild(checkbox);
+            row.appendChild(swatch);
+            row.appendChild(labelText);
+
+            content.appendChild(row);
+        });
+
+
+        // ----------------------------------------------------
+        // WHOLE-LAYER VISIBILITY
+        // ----------------------------------------------------
+
+        function updateLayerVisibility(item, checked) {
+
+            if (!map.getLayer(item.layer)) {
+                return;
+            }
+
+            map.setLayoutProperty(
+                item.layer,
+                "visibility",
+                checked ? "visible" : "none"
+            );
+        }
+
+
+        // ----------------------------------------------------
+        // CATEGORY FILTERING
+        // ----------------------------------------------------
+
+        function updateCategoryLayer(layerId, field) {
+
+            const relatedItems =
+                config.controls.items.filter((item, index) => {
+
+                    if (
+                        item.type !== "category" ||
+                        item.layer !== layerId ||
+                        item.field !== field
+                    ) {
+                        return false;
+                    }
+
+                    const checkbox =
+                        content.querySelector(
+                            `input[data-control-index="${index}"]`
+                        );
+
+                    return checkbox && checkbox.checked;
+                });
+
+
+            const enabledValues =
+                relatedItems.map((item) => item.value);
+
+
+            let filter;
+
+
+            // No categories selected
+            if (enabledValues.length === 0) {
+
+                filter = [
+                    "==",
+                    ["get", field],
+                    "__NO_MATCH__"
+                ];
+            }
+
+
+            // One or more categories selected
+            else {
+
+                filter = [
+                    "match",
+                    ["get", field],
+                    enabledValues,
+                    true,
+                    false
+                ];
+            }
+
+
+            // Apply filter to main layer
+            if (map.getLayer(layerId)) {
+                map.setFilter(layerId, filter);
+            }
+
+
+            // ------------------------------------------------
+            // APPLY SAME FILTER TO LINKED LAYERS
+            // ------------------------------------------------
+
+            const linkedLayers = new Set();
+
+
+            config.controls.items.forEach((item) => {
+
+                if (
+                    item.type === "category" &&
+                    item.layer === layerId &&
+                    item.field === field &&
+                    item.linkedLayer
+                ) {
+
+                    linkedLayers.add(item.linkedLayer);
+                }
+            });
+
+
+            linkedLayers.forEach((linkedLayer) => {
+
+                if (map.getLayer(linkedLayer)) {
+                    map.setFilter(linkedLayer, filter);
+                }
+            });
+        }
+
+
+        // ----------------------------------------------------
+        // CHECKBOX EVENTS
+        // ----------------------------------------------------
+
+        content.addEventListener("change", (event) => {
+
+            if (
+                !event.target.classList.contains(
+                    "map-layer-control-checkbox"
+                )
+            ) {
+                return;
+            }
+
+
+            const index =
+                Number(event.target.dataset.controlIndex);
+
+            const item =
+                config.controls.items[index];
+
+
+            // Whole layer
+            if (item.type === "layer") {
+
+                updateLayerVisibility(
+                    item,
+                    event.target.checked
+                );
+            }
+
+
+            // Category within a layer
+            else if (item.type === "category") {
+
+                updateCategoryLayer(
+                    item.layer,
+                    item.field
+                );
+            }
+        });
+
+
+        // ----------------------------------------------------
+        // COLLAPSE / EXPAND
+        // ----------------------------------------------------
+
+        header.addEventListener("click", () => {
+
+            const collapsed =
+                control.classList.toggle("collapsed");
+
+            content.hidden = collapsed;
+
+
+            const toggle =
+                header.querySelector(
+                    ".map-layer-control-toggle"
+                );
+
+            toggle.textContent =
+                collapsed ? "+" : "−";
+        });
+
+
+        // ----------------------------------------------------
+        // ADD CONTROL TO PAGE
+        // ----------------------------------------------------
+
+        document.body.appendChild(control);
+    }
 
 });
