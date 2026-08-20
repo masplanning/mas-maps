@@ -1,9 +1,11 @@
 window.mapConfig = {
+
     center: [-73.95, 40.72],
     zoom: 10,
 
     layers: [
-        //1. GARMENT CENTER
+
+        // 1. GARMENT CENTER
         {
             id: "cris_Building_District_Garment_Center",
             name: "Garment Center",
@@ -17,13 +19,13 @@ window.mapConfig = {
             }
         },
 
-         //2. QUADRANT BOUNDARIES
-         {
-            id: "msmx_quandrants",
+        // 2. QUADRANT BOUNDARIES
+        {
+            id: "msmx_quadrants",
             name: "MSMX Quadrants",
             file: "./data/msmx_quadrants.geojson",
             type: "line",
-            interactive: false,
+            interactive: true,
 
             style: {
                 color: "#e40e62",
@@ -32,13 +34,13 @@ window.mapConfig = {
             }
         },
 
-        //3. OPEN SPACE
+        // 3. OPEN SPACE
         {
             id: "msmx_os",
             name: "Open Space",
             file: "./data/msmx_os.geojson",
             type: "fill",
-            interactive: false,
+            interactive: true,
 
             style: {
                 color: "#4f712b",
@@ -46,7 +48,7 @@ window.mapConfig = {
             }
         },
 
-        //4. DEVELOPMENT SITES
+        // 4. DEVELOPMENT SITES
         {
             id: "msmx_sites",
             sourceId: "msmx_sites",
@@ -63,14 +65,14 @@ window.mapConfig = {
                     "Projected", "#ca562c",
                     "Potential", "#3d5941",
 
-                    "cccccc"
+                    "#cccccc"
                 ],
 
                 opacity: 0.85
             }
         },
 
-        //5. POINTS OF INTEREST
+        // 5. POINTS OF INTEREST
         {
             id: "msmx_poi",
             name: "Points of Interest",
@@ -84,7 +86,7 @@ window.mapConfig = {
             }
         },
 
-        //6. SITE NUMBER LABELS
+        // 6. SITE NUMBER LABELS
         {
             id: "msmx_sites_labels",
             sourceId: "msmx_sites",
