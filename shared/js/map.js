@@ -19,7 +19,7 @@ const map = new maplibregl.Map({
     container: "map",
     style: "https://tiles.openfreemap.org/styles/positron",
     center: config.center || [-73.99, 40.75],
-    zoom: config.zoom || 12
+    zoom: config.zoom || 14
 });
 
 
