@@ -49,6 +49,7 @@ window.mapConfig = {
         //4. DEVELOPMENT SITES
         {
             id: "msmx_sites",
+            sourceId: "msmx_sites",
             name: "Development Sites",
             file: "./data/msmx_sites.geojson",
             type: "fill",
@@ -86,6 +87,7 @@ window.mapConfig = {
         //6. SITE NUMBER LABELS
         {
             id: "msmx_sites_labels",
+            sourceId: "msmx_sites",
             name: "Site Numbers",
             file: "./data/msmx_sites.geojson",
             type: "symbol",
