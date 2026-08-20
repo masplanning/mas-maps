@@ -1,5 +1,5 @@
 window.mapConfig = {
-    center: [-73.95, 40.72]
+    center: [-73.95, 40.72],
     zoom: 10,
 
     layers: [
