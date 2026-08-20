@@ -3,6 +3,91 @@ window.mapConfig = {
     center: [-73.9905, 40.7505],
     zoom: 14.5,
 
+    controls: {
+    title: "Layers",
+
+    items: [
+
+        {
+            label: "Garment Center",
+            type: "layer",
+            layer: "cris_Building_District_Garment_Center",
+
+            symbol: {
+                type: "fill",
+                color: "#008c87",
+                opacity: 0.24
+            }
+        },
+
+        {
+            label: "MSMX Quadrants",
+            type: "layer",
+            layer: "msmx_quadrants",
+
+            symbol: {
+                type: "line",
+                color: "#e40e62",
+                dashed: true
+            }
+        },
+
+        {
+            label: "Open Space",
+            type: "layer",
+            layer: "msmx_os",
+
+            symbol: {
+                type: "fill",
+                color: "#4f712b",
+                opacity: 0.35
+            }
+        },
+
+        {
+            label: "Projected Site",
+            type: "category",
+            layer: "msmx_sites",
+            linkedLayer: "msmx_sites_labels",
+            field: "devType",
+            value: "Projected",
+
+            symbol: {
+                type: "fill",
+                color: "#ca562c",
+                opacity: 0.85
+            }
+        },
+
+        {
+            label: "Potential Site",
+            type: "category",
+            layer: "msmx_sites",
+            linkedLayer: "msmx_sites_labels",
+            field: "devType",
+            value: "Potential",
+
+            symbol: {
+                type: "fill",
+                color: "#3d5941",
+                opacity: 0.85
+            }
+        },
+
+        {
+            label: "Points of Interest",
+            type: "layer",
+            layer: "msmx_poi",
+
+            symbol: {
+                type: "circle",
+                color: "#000000"
+            }
+        }
+
+    ]
+},
+
     layers: [
 
         // 1. GARMENT CENTER
