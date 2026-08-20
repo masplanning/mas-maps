@@ -116,128 +116,224 @@ map.on("load", () => {
 
 
         // ----------------------------------------------------
-        // SYMBOL / LABEL
+        // SYMBOL / LABEL / ICON
         // ----------------------------------------------------
 
         else if (layerConfig.type === "symbol") {
+
+            const layout = {};
+            const paint = {};
+
+
+            // ICON
+            if (layerConfig.style.icon) {
+
+                layout["icon-image"] =
+                    layerConfig.style.icon;
+
+                layout["icon-size"] =
+                    layerConfig.style.iconSize || 1;
+
+                layout["icon-allow-overlap"] = true;
+            }
+
+
+            // TEXT LABEL
+            if (layerConfig.style.textField) {
+
+                layout["text-field"] =
+                    layerConfig.style.textField;
+
+                layout["text-size"] =
+                    layerConfig.style.textSize;
+
+                layout["text-font"] =
+                    layerConfig.style.textFont ||
+                    ["Noto Sans Regular"];
+
+                layout["text-anchor"] = "center";
+                layout["text-allow-overlap"] = true;
+
+                paint["text-color"] =
+                    layerConfig.style.textColor;
+            }
+
 
             map.addLayer({
                 id: layerConfig.id,
                 type: "symbol",
                 source: sourceId,
-
-                layout: {
-                    "text-field": layerConfig.style.textField,
-                    "text-size": layerConfig.style.textSize,
-                    "text-font": layerConfig.style.textFont || ["Noto Sans Regular"],
-                    "text-anchor": "center",
-                    "text-allow-overlap": true
-                },
-
-                paint: {
-                    "text-color": layerConfig.style.textColor
-                }
+                layout: layout,
+                paint: paint
             });
         }
 
 
-        //-----------------------------------------------------
+        // ----------------------------------------------------
         // POPUPS
-        //-----------------------------------------------------
+        // ----------------------------------------------------
 
-       if (layerConfig.popup) {
+        if (layerConfig.popup) {
 
-    map.on("click", layerConfig.id, (e) => {
+            map.on("click", layerConfig.id, (e) => {
 
-        if (!e.features || !e.features.length) {
-            return;
+                if (!e.features || !e.features.length) {
+                    return;
+                }
+
+                const properties =
+                    e.features[0].properties;
+
+                const popupConfig =
+                    layerConfig.popup;
+
+                let popupHTML = "";
+
+
+                // ------------------------------------------------
+                // TITLE
+                // ------------------------------------------------
+
+                if (popupConfig.titleField) {
+
+                    const titleValue =
+                        properties[popupConfig.titleField] ?? "";
+
+                    const titlePrefix =
+                        popupConfig.titlePrefix || "";
+
+                    popupHTML += `
+                        <div class="map-popup-title">
+                            ${titlePrefix}${titleValue}
+                        </div>
+                    `;
+                }
+
+
+                // ------------------------------------------------
+                // IMAGE
+                // ------------------------------------------------
+
+                if (
+                    popupConfig.imageField &&
+                    properties[popupConfig.imageField]
+                ) {
+
+                    popupHTML += `
+                        <img
+                            class="map-popup-image"
+                            src="${properties[popupConfig.imageField]}"
+                            alt=""
+                        >
+                    `;
+                }
+
+
+                // ------------------------------------------------
+                // IMAGE CAPTION
+                // ------------------------------------------------
+
+                let captionHTML = "";
+
+
+                // Bold caption field
+                // Used for POI "Use"
+                if (
+                    popupConfig.captionBoldField &&
+                    properties[popupConfig.captionBoldField]
+                ) {
+
+                    captionHTML += `
+                        <strong>${properties[popupConfig.captionBoldField]}</strong>
+                    `;
+                }
+
+
+                // Regular caption field
+                // Used for POI "image_sour"
+                if (
+                    popupConfig.captionField &&
+                    properties[popupConfig.captionField]
+                ) {
+
+                    if (captionHTML) {
+                        captionHTML += " ";
+                    }
+
+                    captionHTML +=
+                        properties[popupConfig.captionField];
+                }
+
+
+                // Simple image caption
+                // Used by Development Sites
+                if (
+                    !popupConfig.captionField &&
+                    popupConfig.imageCaptionField &&
+                    properties[popupConfig.imageCaptionField]
+                ) {
+
+                    captionHTML +=
+                        properties[popupConfig.imageCaptionField];
+                }
+
+
+                // Add caption to popup
+                if (captionHTML) {
+
+                    popupHTML += `
+                        <div class="map-popup-caption">
+                            ${captionHTML}
+                        </div>
+                    `;
+                }
+
+
+                // ------------------------------------------------
+                // ATTRIBUTE FIELDS
+                // ------------------------------------------------
+
+                if (popupConfig.fields) {
+
+                    popupConfig.fields.forEach((fieldConfig) => {
+
+                        const value =
+                            properties[fieldConfig.field];
+
+                        if (
+                            value !== null &&
+                            value !== undefined &&
+                            value !== ""
+                        ) {
+
+                            popupHTML += `
+                                <div class="map-popup-field">
+                                    <strong>${fieldConfig.label}:</strong>
+                                    ${value}
+                                </div>
+                            `;
+                        }
+
+                    });
+                }
+
+
+                // ------------------------------------------------
+                // CREATE POPUP
+                // ------------------------------------------------
+
+                new maplibregl.Popup({
+                    closeButton: true,
+                    closeOnClick: true,
+                    maxWidth: "320px"
+                })
+                    .setLngLat(e.lngLat)
+                    .setHTML(popupHTML)
+                    .addTo(map);
+
+            });
         }
 
-        const properties = e.features[0].properties;
-        const popupConfig = layerConfig.popup;
-
-        let popupHTML = "";
-
-        // TITLE
-        if (popupConfig.titleField) {
-
-            const titleValue =
-                properties[popupConfig.titleField] ?? "";
-
-            popupHTML += `
-                <div class="map-popup-title">
-                    ${popupConfig.titlePrefix || ""}${titleValue}
-                </div>
-            `;
-        }
-
-
-        // IMAGE
-        if (
-            popupConfig.imageField &&
-            properties[popupConfig.imageField]
-        ) {
-
-            popupHTML += `
-                <img
-                    class="map-popup-image"
-                    src="${properties[popupConfig.imageField]}"
-                    alt=""
-                >
-            `;
-        }
-
-
-        // IMAGE CAPTION
-        if (
-            popupConfig.imageCaptionField &&
-            properties[popupConfig.imageCaptionField]
-        ) {
-
-            popupHTML += `
-                <div class="map-popup-caption">
-                    ${properties[popupConfig.imageCaptionField]}
-                </div>
-            `;
-        }
-
-
-        // ATTRIBUTE FIELDS
-        popupConfig.fields.forEach((fieldConfig) => {
-
-            const value =
-                properties[fieldConfig.field];
-
-            if (
-                value !== null &&
-                value !== undefined &&
-                value !== ""
-            ) {
-
-                popupHTML += `
-                    <div class="map-popup-field">
-                        <strong>${fieldConfig.label}:</strong>
-                        ${value}
-                    </div>
-                `;
-            }
-
-        });
-
-
-        // CREATE POPUP
-        new maplibregl.Popup({
-            closeButton: true,
-            closeOnClick: true,
-            maxWidth: "320px"
-        })
-            .setLngLat(e.lngLat)
-            .setHTML(popupHTML)
-            .addTo(map);
-
-    });
-
-}
 
         // ----------------------------------------------------
         // POINTER CURSOR FOR INTERACTIVE LAYERS
