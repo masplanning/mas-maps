@@ -99,7 +99,7 @@ window.mapConfig = {
             style: {
                 textField: ["get", "Site_No_"],
                 textColor: "#000000",
-                textSize: 9,
+                textSize: 10,
                 textFont: ["Noto Sans Regular"]
             }
         }
