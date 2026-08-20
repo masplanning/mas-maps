@@ -59,11 +59,12 @@ window.mapConfig = {
 
             style: {
                 color: [
-                    "match",
-                    ["get", "devType"],
+                    "case",
+                    ["==", ["get", "devType"], "Projected"],
+                    "#ca562c",
 
-                    "Projected", "#ca562c",
-                    "Potential", "#3d5941",
+                    ["==", ["get", "devType"], "Potential"],
+                    "#3d5941",
 
                     "#cccccc"
                 ],
