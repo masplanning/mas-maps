@@ -70,7 +70,43 @@ window.mapConfig = {
                 ],
 
                 opacity: 0.85
+            },
+
+            popup: {
+                titlePrefix: "Projected Site",
+                titleField: "Site_No_",
+
+                imageField: "image_url",
+                imageCaptionField: "image_sour",
+
+                fields: [
+                    {
+                        field: "Address_BB",
+                        label: "Address (BBL)"
+                    },
+                    {
+                        field: "Site_Area_",
+                        label: "Site Area"
+                    },
+                    {
+                        field: "Current_La",
+                        label: "Current Land Use"
+                    },
+                    {
+                        field: "Current_To",
+                        label: "Current Total (gsf)"
+                    },
+                    {
+                        field: "Proposed_D",
+                        label: "Proposed Development"
+                    },
+                    {
+                        field: "Historic_D",
+                        label: "Historic Designation"
+                    },
+                ]
             }
+ 
         },
 
         // 5. POINTS OF INTEREST
