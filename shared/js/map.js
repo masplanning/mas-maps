@@ -141,6 +141,104 @@ map.on("load", () => {
         }
 
 
+        //-----------------------------------------------------
+        // POPUPS
+        //-----------------------------------------------------
+
+       if (layerConfig.popup) {
+
+    map.on("click", layerConfig.id, (e) => {
+
+        if (!e.features || !e.features.length) {
+            return;
+        }
+
+        const properties = e.features[0].properties;
+        const popupConfig = layerConfig.popup;
+
+        let popupHTML = "";
+
+        // TITLE
+        if (popupConfig.titleField) {
+
+            const titleValue =
+                properties[popupConfig.titleField] ?? "";
+
+            popupHTML += `
+                <div class="map-popup-title">
+                    ${popupConfig.titlePrefix || ""}${titleValue}
+                </div>
+            `;
+        }
+
+
+        // IMAGE
+        if (
+            popupConfig.imageField &&
+            properties[popupConfig.imageField]
+        ) {
+
+            popupHTML += `
+                <img
+                    class="map-popup-image"
+                    src="${properties[popupConfig.imageField]}"
+                    alt=""
+                >
+            `;
+        }
+
+
+        // IMAGE CAPTION
+        if (
+            popupConfig.imageCaptionField &&
+            properties[popupConfig.imageCaptionField]
+        ) {
+
+            popupHTML += `
+                <div class="map-popup-caption">
+                    ${properties[popupConfig.imageCaptionField]}
+                </div>
+            `;
+        }
+
+
+        // ATTRIBUTE FIELDS
+        popupConfig.fields.forEach((fieldConfig) => {
+
+            const value =
+                properties[fieldConfig.field];
+
+            if (
+                value !== null &&
+                value !== undefined &&
+                value !== ""
+            ) {
+
+                popupHTML += `
+                    <div class="map-popup-field">
+                        <strong>${fieldConfig.label}:</strong>
+                        ${value}
+                    </div>
+                `;
+            }
+
+        });
+
+
+        // CREATE POPUP
+        new maplibregl.Popup({
+            closeButton: true,
+            closeOnClick: true,
+            maxWidth: "360px"
+        })
+            .setLngLat(e.lngLat)
+            .setHTML(popupHTML)
+            .addTo(map);
+
+    });
+
+}
+
         // ----------------------------------------------------
         // POINTER CURSOR FOR INTERACTIVE LAYERS
         // ----------------------------------------------------
