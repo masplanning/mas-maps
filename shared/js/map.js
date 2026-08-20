@@ -129,6 +129,7 @@ map.on("load", () => {
                 layout: {
                     "text-field": layerConfig.style.textField,
                     "text-size": layerConfig.style.textSize,
+                    "text-font": layerConfig.style.textFont || ["Noto Sans Regular"],
                     "text-anchor": "center",
                     "text-allow-overlap": true
                 },
