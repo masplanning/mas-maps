@@ -60,7 +60,7 @@ window.mapConfig = {
                     "match",
                     ["get", "devType"],
 
-                    "Projected", "#ca562c"
+                    "Projected", "#ca562c",
                     "Potential", "#3d5941",
 
                     "cccccc"
