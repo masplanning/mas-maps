@@ -17,7 +17,7 @@ if (!config) {
 
 const map = new maplibregl.Map({
     container: "map",
-    style: "https://demotiles.maplibre.org/style.json",
+    style: "https://tiles.openfreemap.org/styles/positron",
     center: config.center || [-73.99, 40.75],
     zoom: config.zoom || 12
 });
