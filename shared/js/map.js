@@ -229,7 +229,7 @@ map.on("load", () => {
         new maplibregl.Popup({
             closeButton: true,
             closeOnClick: true,
-            maxWidth: "360px"
+            maxWidth: "320px"
         })
             .setLngLat(e.lngLat)
             .setHTML(popupHTML)
