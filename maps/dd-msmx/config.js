@@ -120,6 +120,14 @@ window.mapConfig = {
             style: {
                 color: "#000000",
                 radius: 6
+            },
+
+            popup: {
+                titleField: "Address",
+                imageField: "image_url",
+                captionBoldField: "Use",
+                captionField: "image_sour",
+                fields: []
             }
         },
 
