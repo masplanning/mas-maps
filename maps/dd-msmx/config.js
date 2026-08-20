@@ -73,7 +73,7 @@ window.mapConfig = {
             },
 
             popup: {
-                titlePrefix: "Projected Site",
+                titlePrefix: "Projected Site ",
                 titleField: "Site_No_",
 
                 imageField: "image_url",
