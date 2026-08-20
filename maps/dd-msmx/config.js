@@ -83,7 +83,7 @@ window.mapConfig = {
 
             style: {
                 color: "#000000",
-                radius: 10
+                radius: 6
             }
         },
 
