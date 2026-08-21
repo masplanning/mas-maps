@@ -189,12 +189,40 @@ map.on("load", () => {
 
                 let popupHTML = "";
 
+                //HELPER: BUILD TEXT FROM STATIC TEXT AND FIELDS
+
+                function buildText(parts, properties) {
+                    if (!parts) {
+                        return "";
+                    }
+
+                    return parts
+                        .map((part) => {
+                            if (part.text ! == undefined) {
+                                return part.text:
+                            }
+                            if (part.field !== undefined) {
+                                return properties[part.field] ?? "";
+                            }
+                            return "";
+                        })
+                        .join("");
+                }
+
 
                 // ------------------------------------------------
                 // TITLE
                 // ------------------------------------------------
 
-                if (popupConfig.titleField) {
+                let titleHTML = "";
+
+                if (popupConfig.titleParts) {
+                    titleHTML = buildText(
+                        popupConfig.titleParts,
+                        properties
+                    );
+
+                else if (popupConfig.titleField) {
 
                     const titleValue =
                         properties[popupConfig.titleField] ?? "";
@@ -282,6 +310,29 @@ map.on("load", () => {
                             ${captionHTML}
                         </div>
                     `;
+                }
+
+
+                //-------------------------------------------------
+                //INTRO TEXT
+                //-------------------------------------------------
+
+                if (popupConfig.intro) {
+
+                    const introText =
+                        buildText(
+                            popupConfig.intro,
+                            properties
+                        );
+
+                    if (introText) {
+
+                        popupHTML += `
+                            <div class="map-popup-intro">
+                                ${introText}
+                            </div>
+                        `;
+                    }
                 }
 
 
