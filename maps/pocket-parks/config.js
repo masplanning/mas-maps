@@ -133,7 +133,7 @@ window.mapConfig = {
                     },
 
                     {
-                        field: "Size_Sq_F",
+                        field: "Size__Sq_F",
                         label: "Size in Square Feet"
                     },
 
