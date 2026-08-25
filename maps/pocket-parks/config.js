@@ -78,12 +78,12 @@ window.mapConfig = {
                 titleField: "Park_Name",
 
                 intro: [
-                    { field: "Ownership Subcategory " }, 
-                    { field: "Use Subcategory " }, 
+                    { field: "Ownership Subcategory" }, 
+                    { field: "Use Subcategory" }, 
                     { text: "on " }, 
                     { field: "Address" }, 
 
-                ]
+                ],
 
                 fields: [
                     {
@@ -129,10 +129,10 @@ window.mapConfig = {
                 
                 intro: [
                     { text: "Community garden located on " }, 
-                    { field: "crosstree " }, 
-                    { text: "Public access hours vary by garden. For more information, see https://www.nycgovparks.org/greenthumb/" }, 
+                    { field: "crosstree" }, 
+                    { text: ". Public access hours vary by garden." }, 
 
-                ]
+                ],
                 
                 fields: [
                     {
