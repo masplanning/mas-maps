@@ -117,9 +117,9 @@ window.mapConfig = {
                 titleField: "Park_Name",
 
                 intro: [
-                    { field: "Ownership Subcategory" },
+                    { field: "Ownership_" },
                     { text: " " },
-                    { field: "Use Subcategory" },
+                    { field: "Use_Subcat" },
                     { text: " on " },
                     { field: "Address" },
                     { text: "." }
@@ -128,22 +128,22 @@ window.mapConfig = {
                 fields: [
 
                     {
-                        field: "Year Opened",
+                        field: "Year",
                         label: "Year Opened"
                     },
 
                     {
-                        field: "Size in Square Feet",
+                        field: "Size_Sq_F",
                         label: "Size in Square Feet"
                     },
 
                     {
-                        field: "Use",
+                        field: "Use_",
                         label: "Use"
                     },
 
                     {
-                        field: "Data Source",
+                        field: "dataSource",
                         label: "Data Source"
                     },
 
