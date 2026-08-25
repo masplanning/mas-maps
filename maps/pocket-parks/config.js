@@ -1,7 +1,7 @@
 window.mapConfig = {
 
     center: [-73.94, 40.71],
-    zoom: 11,
+    zoom: 10.5,
 
 
     // ========================================================
@@ -104,7 +104,7 @@ window.mapConfig = {
                     "#cccccc"
                 ],
 
-                radius: 6
+                radius: 5
             },
 
 
@@ -180,7 +180,7 @@ window.mapConfig = {
 
                 color: "#4bba18",
 
-                radius: 6
+                radius: 5
             },
 
 
@@ -194,7 +194,7 @@ window.mapConfig = {
 
                 intro: [
                     { text: "Community garden located on " },
-                    { field: "crosstree" },
+                    { field: "crossstree" },
                     { text: ". Public access hours vary by garden. For more information, see https://www.nycgovparks.org/greenthumb/" }
                 ],
 
@@ -216,7 +216,7 @@ window.mapConfig = {
                     },
 
                     {
-                        field: "Data Source",
+                        field: "DataSource",
                         label: "Data Source"
                     }
 
