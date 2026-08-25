@@ -189,21 +189,28 @@ map.on("load", () => {
 
                 let popupHTML = "";
 
-                //HELPER: BUILD TEXT FROM STATIC TEXT AND FIELDS
+
+                // ------------------------------------------------
+                // HELPER: BUILD TEXT FROM STATIC TEXT + FIELDS
+                // ------------------------------------------------
 
                 function buildText(parts, properties) {
+
                     if (!parts) {
                         return "";
                     }
 
                     return parts
                         .map((part) => {
-                            if (part.text ! == undefined) {
-                                return part.text:
+
+                            if (part.text !== undefined) {
+                                return part.text;
                             }
+
                             if (part.field !== undefined) {
                                 return properties[part.field] ?? "";
                             }
+
                             return "";
                         })
                         .join("");
@@ -212,15 +219,20 @@ map.on("load", () => {
 
                 // ------------------------------------------------
                 // TITLE
+                // Supports:
+                // - titleParts
+                // - OR titlePrefix + titleField
                 // ------------------------------------------------
 
                 let titleHTML = "";
 
                 if (popupConfig.titleParts) {
+
                     titleHTML = buildText(
                         popupConfig.titleParts,
                         properties
                     );
+                }
 
                 else if (popupConfig.titleField) {
 
@@ -230,9 +242,16 @@ map.on("load", () => {
                     const titlePrefix =
                         popupConfig.titlePrefix || "";
 
+                    titleHTML =
+                        `${titlePrefix}${titleValue}`;
+                }
+
+
+                if (titleHTML) {
+
                     popupHTML += `
                         <div class="map-popup-title">
-                            ${titlePrefix}${titleValue}
+                            ${titleHTML}
                         </div>
                     `;
                 }
@@ -291,7 +310,7 @@ map.on("load", () => {
                 }
 
 
-                // Simple caption
+                // Simple image caption
                 if (
                     !popupConfig.captionField &&
                     popupConfig.imageCaptionField &&
@@ -313,9 +332,10 @@ map.on("load", () => {
                 }
 
 
-                //-------------------------------------------------
-                //INTRO TEXT
-                //-------------------------------------------------
+                // ------------------------------------------------
+                // INTRO TEXT
+                // Supports static text + feature fields
+                // ------------------------------------------------
 
                 if (popupConfig.intro) {
 
