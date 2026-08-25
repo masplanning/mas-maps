@@ -1,7 +1,7 @@
 window.mapConfig = {
 
     center: [-73.94, 40.71],
-    zoom: 9.5,
+    zoom: 11,
 
 
     // ========================================================
@@ -114,17 +114,7 @@ window.mapConfig = {
 
             popup: {
 
-                // ------------------------------------------------
-                // TITLE
-                // ------------------------------------------------
-
                 titleField: "Park_Name",
-
-
-                // ------------------------------------------------
-                // INTRO TEXT
-                // Ownership Subcategory + Use Subcategory + on + Address
-                // ------------------------------------------------
 
                 intro: [
                     { field: "Ownership Subcategory" },
@@ -134,11 +124,6 @@ window.mapConfig = {
                     { field: "Address" },
                     { text: "." }
                 ],
-
-
-                // ------------------------------------------------
-                // POPUP FIELDS
-                // ------------------------------------------------
 
                 fields: [
 
@@ -169,6 +154,7 @@ window.mapConfig = {
 
                 ]
             }
+        },
 
 
         // ====================================================
@@ -206,31 +192,11 @@ window.mapConfig = {
 
                 titleField: "gardenname",
 
-
-                // --------------------------------------------
-                // INTRO TEXT
-                // --------------------------------------------
-
                 intro: [
-
-                    {
-                        text: "Community garden located on "
-                    },
-
-                    {
-                        field: "crosstree"
-                    },
-
-                    {
-                        text: ". Public access hours vary by garden."
-                    }
-
+                    { text: "Community garden located on " },
+                    { field: "crosstree" },
+                    { text: ". Public access hours vary by garden. For more information, see https://www.nycgovparks.org/greenthumb/" }
                 ],
-
-
-                // --------------------------------------------
-                // ATTRIBUTE FIELDS
-                // --------------------------------------------
 
                 fields: [
 
