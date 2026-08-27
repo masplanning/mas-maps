@@ -82,19 +82,24 @@ map.on("load", () => {
 
         else if (layerConfig.type === "line") {
 
+            const linePaint = {
+                "line-color": layerConfig.style.color,
+                "line-width": layerConfig.style.width
+            };
+
+            // Only add a dash array when the layer actually has one.
+            if (layerConfig.style.dasharray) {
+                linePaint["line-dasharray"] =
+                    layerConfig.style.dasharray;
+            }
+
             map.addLayer({
                 id: layerConfig.id,
                 type: "line",
                 source: sourceId,
-
-                paint: {
-                    "line-color": layerConfig.style.color,
-                    "line-width": layerConfig.style.width,
-                    "line-dasharray": layerConfig.style.dasharray
-                }
+                paint: linePaint
             });
         }
-
 
         // ----------------------------------------------------
         // CIRCLE
