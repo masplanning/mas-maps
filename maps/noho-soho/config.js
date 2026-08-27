@@ -368,7 +368,7 @@ window.mapConfig = {
                         label: "Historic District"
                     },
                     {
-                        field: "lmkdesigdat",
+                        field: "lmkdesigda",
                         label: "Designation Date"
                     },
                     {
