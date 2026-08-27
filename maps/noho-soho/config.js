@@ -1,7 +1,7 @@
 window.mapConfig = {
 
     center: [-73.9965, 40.7245],
-    zoom: 14,
+    zoom: 15,
 
 
     // ========================================================
@@ -434,7 +434,7 @@ window.mapConfig = {
                         label: "Proposed FAR"
                     },
                     {
-                        field: "unitres",
+                        field: "unitsres",
                         label: "# Current Residential Units"
                     },
                     {
