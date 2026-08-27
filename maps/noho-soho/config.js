@@ -362,15 +362,15 @@ window.mapConfig = {
                     {
                         field: "address",
                         label: "Address"
-                    }
+                    },
                     {
                         field: "histdist",
                         label: "Historic District"
-                    }
+                    },
                     {
                         field: "lmkdesigdat",
                         label: "Designation Date"
-                    }
+                    },
                     {
                         field: "yearbuilt",
                         label: "Year Built"
