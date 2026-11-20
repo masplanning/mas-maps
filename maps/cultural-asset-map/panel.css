@@ -198,6 +198,13 @@ body.cam #map {
     margin: 0 0 10px;
 }
 
+.cam-summary .cam-sponsor {
+    margin-top: 12px;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--cam-muted);
+}
+
 
 /* ============================================================
    SECTIONS

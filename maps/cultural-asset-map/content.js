@@ -25,11 +25,14 @@ window.CAM_CONTENT = {
 
     title: "Elmhurst & Jackson Heights Cultural Asset Map",
 
-    // TODO: replace with the final summary copy.
     summary: [
-        "TODO: Summary paragraph. Residents of Elmhurst and Jackson Heights named the neighborhood places they value most, then visited them together on five walking tours.",
-        "TODO: Second paragraph (optional) — how to use the map: pick a walk to follow its route, or browse assets by category."
+        "Jackson Heights and Elmhurst are among the most culturally diverse neighborhoods in New York, and they sit at the northern end of the proposed Interborough Express (IBX) light rail line. Major transit investments like the IBX shape how neighborhoods grow and change. Yet the places residents value most, like the diner where neighbors catch up or the plaza that hosts the summer festival, rarely appear in the data planners use. MAS invited neighbors to put those places on the map.",
+        "In fall 2026, residents, organizers, community board members and cultural stewards spent a day with MAS learning cultural asset mapping, a method that starts with what a neighborhood already has rather than what it lacks. On five neighborhood walks, they documented the everyday places that hold community life together: restaurants and corner businesses, houses of worship, libraries, plazas and play streets. Each place holds the stories, traditions and relationships that give these neighborhoods their distinctive identity.",
+        "The walks were part of MAS’s Livable Neighborhoods Program, which gives residents the tools and training to take part in shaping their neighborhoods’ future. This year’s program focused on cultural asset mapping and its role in planning, so that residents’ knowledge of their own neighborhoods shapes decisions about land use, housing and capital investment."
     ],
+
+    // Small line shown under the summary ("" to hide)
+    sponsor: "Co-sponsored by the Office of Council Member Shekar Krishnan.",
 
     // Headings in the panel
     headings: {
@@ -65,10 +68,10 @@ window.CAM_CONTENT = {
     // --------------------------------------------------------
 
     walks: [
-        { number: 1, letter: "A", name: "TODO: Walk A name", theme: "TODO: theme", date: "TODO: date" },
-        { number: 2, letter: "B", name: "TODO: Walk B name", theme: "TODO: theme", date: "TODO: date" },
-        { number: 3, letter: "C", name: "TODO: Walk C name", theme: "TODO: theme", date: "TODO: date" },
-        { number: 4, letter: "D", name: "TODO: Walk D name", theme: "TODO: theme", date: "TODO: date" },
-        { number: 5, letter: "E", name: "TODO: Walk E name", theme: "TODO: theme", date: "TODO: date" }
+        { number: 1, letter: "A", name: "Walk A route", theme: "", date: "October 24, 2026" },
+        { number: 2, letter: "B", name: "Walk B route", theme: "", date: "October 24, 2026" },
+        { number: 3, letter: "C", name: "Walk C route", theme: "", date: "October 24, 2026" },
+        { number: 4, letter: "D", name: "Walk D route", theme: "", date: "October 24, 2026" },
+        { number: 5, letter: "E", name: "Walk E route", theme: "", date: "October 24, 2026" }
     ]
 };

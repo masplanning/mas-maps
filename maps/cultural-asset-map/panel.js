@@ -90,6 +90,16 @@
         return canvas;
     }
 
+    // A walk's name, only when it adds something beyond "Walk A"
+    // (so labels don't read "Walk A: Walk A route").
+    function walkExtra(walk) {
+        const name = String((walk && walk.name) || "").trim();
+        if (!name || /^TODO/i.test(name) || name.toLowerCase().startsWith(`walk ${walk.letter}`.toLowerCase())) {
+            return "";
+        }
+        return name;
+    }
+
     function walkInfo(letter) {
         return api.walks.find((w) => w.letter === letter) || { letter, name: "" };
     }
@@ -197,7 +207,8 @@
 
         // ---- Summary
         const summary = el("div", { class: "cam-summary" },
-            (CONTENT.summary || []).map((text) => el("p", { text })));
+            (CONTENT.summary || []).map((text) => el("p", { text }))
+                .concat(CONTENT.sponsor ? [el("p", { class: "cam-sponsor", text: CONTENT.sponsor })] : []));
 
         // ---- Walks
         ui.panelChips = buildWalkChips("cam-chips");
@@ -355,8 +366,8 @@
         return el("div", { class: className, role: "group", "aria-label": "Filter by walk" },
             options.map((o) => {
                 const walk = o.letter ? walkInfo(o.letter) : null;
-                const fullName = walk && walk.name && !/^TODO/i.test(walk.name)
-                    ? `Walk ${o.letter}: ${walk.name}`
+                const fullName = walk && walkExtra(walk)
+                    ? `Walk ${o.letter}: ${walkExtra(walk)}`
                     : (o.letter ? `Walk ${o.letter}` : "All walks");
                 return el("button", {
                     class: "cam-chip",
@@ -479,7 +490,7 @@
         const parts = [`Showing ${state.matches.size} of ${state.assets.length} assets`];
         if (state.walk) {
             const w = walkInfo(state.walk);
-            parts.push(`on walk ${state.walk}${w.name && !/^TODO/i.test(w.name) ? `, ${w.name}` : ""}`);
+            parts.push(`on walk ${state.walk}${walkExtra(w) ? `, ${walkExtra(w)}` : ""}`);
         }
         const hidden = api.categories.filter((c) => !state.categories.has(c.value)).map((c) => c.value);
         if (hidden.length) {
@@ -536,8 +547,8 @@
             el("div", { class: "cam-chips cam-chips-small", role: "group", "aria-label": "Show this walk" },
                 asset.walks.map((letter, i) => {
                     const w = walkInfo(letter);
-                    const label = w.name && !/^TODO/i.test(w.name)
-                        ? `Show walk ${letter}: ${w.name}`
+                    const label = walkExtra(w)
+                        ? `Show walk ${letter}: ${walkExtra(w)}`
                         : `Show walk ${letter}`;
                     return [
                         i > 0 ? el("span", { class: "cam-dot", "aria-hidden": "true", text: "·" }) : null,
@@ -864,14 +875,12 @@
             api.on("pointclick", (id) => openCard(id, { fly: false }));
             api.on("areaclick", (area) => openAreaCard(area));
             api.on("walkclick", (letter) => setWalk(letter));
+            // Hovering a point highlights its list item but does NOT
+            // scroll the panel (scrolling only happens on click).
             api.on("pointhover", (id) => {
                 ui.items.forEach(({ button }, itemId) => {
                     button.classList.toggle("is-hover", itemId === id);
                 });
-                const item = id !== null ? ui.items.get(id) : null;
-                if (item && state.view === "main" && !item.li.hidden && !mobileQuery.matches) {
-                    item.button.scrollIntoView({ block: "nearest", behavior: reducedMotion.matches ? "auto" : "smooth" });
-                }
             });
 
             document.addEventListener("keydown", (e) => {
