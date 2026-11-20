@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Elmhurst &amp; Jackson Heights Cultural Asset Map</title>
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../../shared/css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="./panel.css"
+    >
+</head>
+
+<body class="cam">
+
+    <!-- Side panel (desktop) / bottom sheet (phones); filled by panel.js -->
+    <aside id="cam-panel" class="cam-panel" aria-label="Map guide and asset list">
+        <p class="cam-loading">Loading map…</p>
+    </aside>
+
+    <!-- Walk chips over the map (phones only) -->
+    <div id="cam-walkbar" class="cam-walkbar"></div>
+
+    <div id="map" role="region" aria-label="Map of cultural assets. The asset list in the panel has the same information."></div>
+
+    <!-- Screen reader announcements for filter results -->
+    <div id="cam-live" class="cam-sr-only" aria-live="polite"></div>
+
+    <script src="https://unpkg.com/maplibre-gl@5.6.2/dist/maplibre-gl.js"></script>
+
+    <script src="./content.js"></script>
+
+    <script src="./config.js"></script>
+
+    <script src="../../shared/js/map.js"></script>
+
+    <script src="./panel.js"></script>
+
+</body>
+
+</html>
